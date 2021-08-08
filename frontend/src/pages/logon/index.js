@@ -13,12 +13,15 @@ export default function Logon (){
     const history = useHistory();
 
     async function handleLogin(e){
+        console.log(" teste ");
         e.preventDefault();
         try{
-            const response = await api.post('session',{id});
-            console.log(response.data.name);
+            console.log(id);
+            const response = await api.post('/session',{ "ong_id" : id });
+            console.log(response.data);
+            console.log(response.data.ong.nome);
             localStorage.setItem('ongId',id);
-            localStorage.setItem('ongNome', response.data.name);
+            localStorage.setItem('ongNome', response.data.ong.nome);
             history.push('/profile');
         }catch(err){
             alert('Falha no login tente novamente');
