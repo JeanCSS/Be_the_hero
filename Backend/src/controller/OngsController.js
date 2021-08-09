@@ -16,9 +16,10 @@ module.exports = {
     },
     async create(request, response){
      //return response.send('hello, world');
+        console.log(request.body);
         var {  nome, email, whatsapp, city, uf } = request.body;
         var id = crypto.randomBytes(4).toString('HEX');
-        await connection('ongs').insert({ 
+        const res = await connection('ongs').insert({ 
             id,
             nome, 
             email, 
@@ -26,7 +27,8 @@ module.exports = {
             city, 
             uf 
          });
-        return response.send(id);
+        console.log(res);
+        return response.json({ id });
     },
     async delete(request, response){
         var ong_id = request.headers.authorization; 

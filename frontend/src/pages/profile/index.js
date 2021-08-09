@@ -7,28 +7,28 @@ import api from '../../services/api'
 
 export default function Profile(){
     const ongId = localStorage.getItem('ongId');
-    const nomeOng = localStorage.getItem('ongNome')
-    const [incidents, setIncidents] = useState([]);
+    const ongNome = localStorage.getItem('ongNome')
+    const [incidents, setIncidents] = useState(null);
     const history = useHistory();
-
+    console.log(ongNome);
     useEffect(() => {
         api.get('profile',{
             headers: {
                 authorization: ongId,
             }
         }).then(response =>{ 
-            setIncidents(response.data)
+            setIncidents(response.data.incidents)
         })
     }, [ongId]);
     async function handleDeleteIncident(id) {
         try{
-            await api.delete(`incidents/${id}`,{
+            await api.delete(`incidents/delete/${id}`,{
                headers:{
-                   authorization:ongId,
+                   Authorization: ongId,
                } 
             });          
         }catch(err){
-            alert('Erro ao deletar');
+            alert(`Erro ao deletar ${id} de ${ongId}`);
         }
         setIncidents(incidents.filter(incident => incident.id !== id));
     }
@@ -43,7 +43,7 @@ export default function Profile(){
         <div className="profile-container"> 
             <header>
                 <img src={ logoImg } alt="Be_The_Heroes"></img>
-                <span>Bem vinda {nomeOng}</span>
+                <span>Bem vindo {ongNome}</span>
                 <Link  className="button" to="incidents/new"> Cadastrar novo caso </Link>
                 <button type="button" onClick = { handleLogout } >
                     <FiPower size = {18} color="red"></FiPower>
@@ -52,7 +52,8 @@ export default function Profile(){
             </header>
                 <h1>Casos Cadastrados</h1>
                 <ul>
-                   {incidents.map(incident =>(
+                    {console.log(incidents)}
+                    {incidents == null? '<li>Nada pra mostrar</li>' :incidents.map(incident =>(
                         <li key={incident.id}>
                             <strong>Caso:</strong>
                             <p>{incident.title}</p>
@@ -63,8 +64,8 @@ export default function Profile(){
                             <button onClick = { () => handleDeleteIncident(incident.id) } type="button">
                                 <FiTrash2 size={20} color="#a8a8b3"/>
                             </button>
-                     </li>
-                   ))}
+                    </li>
+                    ))}
                 </ul>
 
         </div>

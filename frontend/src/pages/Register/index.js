@@ -7,17 +7,17 @@ import api from '../../services/api'
 
 
 export default function Register(){
-    const [name, setName] = useState('');
+    const [nome, setName] = useState('');
     const [email, setEmail] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [city, setCity] = useState('');
-    const [uf, setUF] = useState('');
-
+    const [uf, setUF] = useState(''); 
     const history = useHistory();
 
     async function handleRegister(e) {
         e.preventDefault();
-        const data = {name,email,whatsapp,city,uf};
+        const data = {nome,email,whatsapp,city,uf};
+        console.log(data);
         try{
             const response = await api.post('ongs',data);
             alert(`seu id de acesso:${response.data.id}`);
@@ -44,14 +44,14 @@ export default function Register(){
 
                         <input 
                             placeholder="Nome da Ong"
-                            value={name}
+                            value={nome}
                             onChange={e => setName(e.target.value)}/>
 
-                        <input 
-                            type="email"
+    <                   input 
+                            type="e-mail"
                             placeholder="E-mail"
                             value={email}
-                            onchange={e => setEmail(e.target.value)}/>
+                            onChange={ e => setEmail(e.target.value)}/>
 
                         <input 
                             placeholder="Whatsapp"

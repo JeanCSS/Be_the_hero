@@ -60,6 +60,7 @@ module.exports = {
            return response.status(401).json({ error : "Operation not permited"});
         }
         await connection('incidents')
+            .where('id', id )
             .where('ong_id' , ong_id)
             .delete();
         console.log(incidents); 
